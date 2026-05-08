@@ -11,25 +11,28 @@
 
 ## Compile & Run
 
+> **Shell note:** The commands below use PowerShell line continuation (` ` `).
+> On bash / MSYS2, replace each backtick with a backslash (`\\`).
+
 ### GUI mode (SFML required)
 
 **Compile:**
-```bash
-g++ -std=c++17 -DHMS_ENABLE_SFML -Iinclude \
-  src/Admin.cpp src/Appointment.cpp src/Bill.cpp src/Doctor.cpp \
-  src/FileHandler.cpp src/FileNotFoundException.cpp src/HospitalException.cpp \
-  src/InsufficientFundsException.cpp src/InvalidInputException.cpp \
-  src/Patient.cpp src/Person.cpp src/Prescription.cpp \
-  src/SlotUnavailableException.cpp src/Validator.cpp \
-  src/HospitalSystem.cpp src/UITheme.cpp src/UIWidgets.cpp \
-  src/LoginUI.cpp src/PatientUI.cpp src/DoctorUI.cpp src/AdminUI.cpp \
-  src/SFMLUI.cpp src/main.cpp \
-  -lsfml-graphics -lsfml-window -lsfml-system \
+```powershell
+g++ -std=c++17 -DHMS_ENABLE_SFML -Iinclude `
+  src/Admin.cpp src/Appointment.cpp src/Bill.cpp src/Doctor.cpp `
+  src/FileHandler.cpp src/FileNotFoundException.cpp src/HospitalException.cpp `
+  src/InsufficientFundsException.cpp src/InvalidInputException.cpp `
+  src/Patient.cpp src/Person.cpp src/Prescription.cpp `
+  src/SlotUnavailableException.cpp src/Validator.cpp `
+  src/HospitalSystem.cpp src/UITheme.cpp src/UIWidgets.cpp `
+  src/LoginUI.cpp src/PatientUI.cpp src/DoctorUI.cpp src/AdminUI.cpp `
+  src/SFMLUI.cpp src/main.cpp `
+  -lsfml-graphics -lsfml-window -lsfml-system `
   -o hospital_sfml.exe
 ```
 
 **Run:**
-```bash
+```powershell
 ./hospital_sfml.exe
 ```
 
@@ -40,21 +43,21 @@ Opens a **900 × 600** interactive window. Navigate with mouse clicks or keyboar
 ### Console mode (no SFML needed)
 
 **Compile:**
-```bash
-g++ -std=c++17 -Iinclude \
-  src/Admin.cpp src/Appointment.cpp src/Bill.cpp src/Doctor.cpp \
-  src/FileHandler.cpp src/FileNotFoundException.cpp src/HospitalException.cpp \
-  src/InsufficientFundsException.cpp src/InvalidInputException.cpp \
-  src/Patient.cpp src/Person.cpp src/Prescription.cpp \
-  src/SlotUnavailableException.cpp src/Validator.cpp \
-  src/HospitalSystem.cpp src/UITheme.cpp src/UIWidgets.cpp \
-  src/LoginUI.cpp src/PatientUI.cpp src/DoctorUI.cpp src/AdminUI.cpp \
-  src/SFMLUI.cpp src/main.cpp \
+```powershell
+g++ -std=c++17 -Iinclude `
+  src/Admin.cpp src/Appointment.cpp src/Bill.cpp src/Doctor.cpp `
+  src/FileHandler.cpp src/FileNotFoundException.cpp src/HospitalException.cpp `
+  src/InsufficientFundsException.cpp src/InvalidInputException.cpp `
+  src/Patient.cpp src/Person.cpp src/Prescription.cpp `
+  src/SlotUnavailableException.cpp src/Validator.cpp `
+  src/HospitalSystem.cpp src/UITheme.cpp src/UIWidgets.cpp `
+  src/LoginUI.cpp src/PatientUI.cpp src/DoctorUI.cpp src/AdminUI.cpp `
+  src/SFMLUI.cpp src/main.cpp `
   -o hospital_console.exe
 ```
 
 **Run:**
-```bash
+```powershell
 ./hospital_console.exe
 ```
 
