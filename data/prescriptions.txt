@@ -1,0 +1,3 @@
+1,3,3,3,07-05-2026,Panadol 500mg twice daily,Rest and plenty of fluids
+2,2,2,2,07-05-2026,Cetirizine 10mg once daily,Avoid allergens
+3,1,1,1,08-05-2026,Brufen,Once a day
