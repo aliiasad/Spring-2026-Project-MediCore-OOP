@@ -114,7 +114,7 @@ void SFMLUI::run(HospitalSystem& system)
 {
     loadFonts();
 
-    RenderWindow window(VideoMode({900u, 600u}), "MediCore HMS  |  v2.0");
+    RenderWindow window(VideoMode({900u, 600u}), "MediCore by 25L-0519");
     window.setFramerateLimit(60);
 
     const Font& font = g_bodyFontLoaded ? g_bodyFont : g_displayFont;
