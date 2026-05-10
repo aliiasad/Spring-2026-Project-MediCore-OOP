@@ -16,7 +16,7 @@ private:
     UIField addContactField;
     UIField addPassField;
     UIField addFeeField;
-    int     addActiveField;
+    int addActiveField;
 
     UIField remDrIdField;
 
@@ -26,33 +26,33 @@ private:
     UIField addPatContactField;
     UIField addPatPassField;
     UIField addPatBalField;
-    int     addPatActiveField;
+    int addPatActiveField;
 
     UIField disPatIdField;
 
-    Patient     patList[100];
-    int         patCount;
-    int         patScroll;
+    Patient patList[100];
+    int patCount;
+    int patScroll;
 
-    Doctor      drList[100];
-    int         drCount;
-    int         drScroll;
+    Doctor drList[100];
+    int drCount;
+    int drScroll;
 
     Appointment apptList[100];
-    int         apptCount;
-    int         apptScroll;
+    int apptCount;
+    int apptScroll;
 
-    Bill        unpaidList[100];
-    int         unpaidCount;
-    int         unpaidScroll;
+    Bill unpaidList[100];
+    int unpaidCount;
+    int unpaidScroll;
 
-    char        logLines[200][256];
-    int         logCount;
-    int         logScroll;
+    char logLines[200][256];
+    int logCount;
+    int logScroll;
 
-    char    msgBuf[128];
-    bool    msgOk;
-    int     blink;
+    char msgBuf[128];
+    bool msgOk;
+    int blink;
 
     UIButton btnBack;
     UIButton btnConfirm;

@@ -39,7 +39,7 @@ void UIButton::draw(RenderWindow& win, const Font& font, int mx, int my) const
     if (style == 0)
         lbl.setFillColor(COL_BG);
     else if (style == 2)
-        lbl.setFillColor(COL_MUTED);
+        lbl.setFillColor(Color(185, 178, 155));
     else
         lbl.setFillColor(hovered ? COL_GOLD_BRIGHT : COL_GOLD);
 
@@ -93,7 +93,7 @@ bool UIField::getActive() const { return active; }
 void UIField::draw(RenderWindow& win, const Font& font, bool blink) const
 {
     Text lbl(font, label, 12);
-    lbl.setFillColor(active ? COL_GOLD : COL_MUTED);
+    lbl.setFillColor(active ? COL_GOLD : Color(190, 182, 158));
     lbl.setPosition({x, y - 20.f});
     win.draw(lbl);
 
@@ -110,7 +110,7 @@ void UIField::draw(RenderWindow& win, const Font& font, bool blink) const
     else Validator::strCopy(disp, buf, 512);
 
     Text tv(font, disp[0] ? disp : "", 15);
-    tv.setFillColor(COL_WHITE);
+    tv.setFillColor(Color(255, 252, 235));
     float ty = y + (h - tv.getLocalBounds().size.y) * 0.5f - 2.f;
     tv.setPosition({x + 10.f, ty});
     win.draw(tv);

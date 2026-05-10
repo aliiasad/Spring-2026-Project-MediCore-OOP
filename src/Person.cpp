@@ -1,3 +1,4 @@
+
 #include "Person.h"
 #include "Validator.h"
 
@@ -18,10 +19,22 @@ Person::Person(int pId, const char* pName, const char* pPassword) : id(pId) {
 
 Person::~Person() {}
 
-int Person::getId() const { return id; }
-const char* Person::getName() const { return name; }
-const char* Person::getPassword() const { return password; }
+int Person::getId() const { 
+    return id; 
+}
+const char* Person::getName() const { 
+    return name; 
+}
+const char* Person::getPassword() const { 
+    return password; 
+}
 
-void Person::setId(int value) { id = value; }
-void Person::setName(const char* value) { Validator::strCopy(name, value, 51); }
-void Person::setPassword(const char* value) { Validator::strCopy(password, value, 51); }
+void Person::setId(int value) { 
+    id = value; 
+}
+void Person::setName(const char* value) { 
+    Validator::strCopy(name, value, 51); 
+}
+void Person::setPassword(const char* value) { 
+    Validator::strCopy(password, value, 51); 
+}

@@ -1,11 +1,20 @@
 #include "AdminUI.h"
 #include "HospitalSystem.h"
 #include "Validator.h"
+#include "AudioManager.h"
 #include <cstdio>
 
 namespace sf {}
 using namespace std;
 using namespace sf;
+
+#ifdef HMS_ENABLE_SFML
+extern void playClick();
+extern void playError();
+#else
+inline void playClick() {}
+inline void playError() {}
+#endif
 
 static bool isNonNegativeFloat(const char* text)
 {
@@ -166,6 +175,7 @@ void AdminUI::handleKey(Keyboard::Key key, int& screen, HospitalSystem& system)
                                    addContactField.getValue(), addPassField.getValue(),
                                    fee, msgBuf);
         msgOk = ok;
+        if (!ok) playError(); else playClick();
         if (ok) {
             addNameField.clear();
             addSpecField.clear();
@@ -178,11 +188,13 @@ void AdminUI::handleKey(Keyboard::Key key, int& screen, HospitalSystem& system)
         int did = Validator::toInt(remDrIdField.getValue());
         bool ok = system.removeDoctor(did, msgBuf);
         msgOk = ok;
+        if (!ok) playError(); else playClick();
         if (ok) remDrIdField.clear();
     } else if (screen == SCREEN_ADMIN_DISCHARGE) {
         int pid = Validator::toInt(disPatIdField.getValue());
         bool ok = system.dischargePatient(pid, msgBuf);
         msgOk = ok;
+        if (!ok) playError(); else playClick();
         if (ok) disPatIdField.clear();
     } else if (screen == SCREEN_ADMIN_ADD_PATIENT) {
         const char* gender = addPatGenderField.getValue();
@@ -191,11 +203,13 @@ void AdminUI::handleKey(Keyboard::Key key, int& screen, HospitalSystem& system)
             !Validator::strEqualIgnoreCase(gender, "Other")) {
             Validator::strCopy(msgBuf, "Gender must be Male, Female, or Other.", 128);
             msgOk = false;
+            playError();
             return;
         }
         if (!isNonNegativeFloat(addPatBalField.getValue())) {
             Validator::strCopy(msgBuf, "Balance must be 0 or more.", 128);
             msgOk = false;
+            playError();
             return;
         }
         int age = Validator::toInt(addPatAgeField.getValue());
@@ -206,6 +220,7 @@ void AdminUI::handleKey(Keyboard::Key key, int& screen, HospitalSystem& system)
                                     addPatPassField.getValue(),
                                     bal, msgBuf);
         msgOk = ok;
+        if (!ok) playError(); else playClick();
         if (ok) {
             addPatNameField.clear();
             addPatAgeField.clear();
@@ -279,6 +294,7 @@ void AdminUI::handleClick(float bx, float by, int& screen, HospitalSystem& syste
                                        addContactField.getValue(), addPassField.getValue(),
                                        fee, msgBuf);
             msgOk = ok;
+        if (!ok) playError(); else playClick();
             if (ok) {
                 addNameField.clear();
                 addSpecField.clear();
@@ -293,6 +309,7 @@ void AdminUI::handleClick(float bx, float by, int& screen, HospitalSystem& syste
             int did = Validator::toInt(remDrIdField.getValue());
             bool ok = system.removeDoctor(did, msgBuf);
             msgOk = ok;
+        if (!ok) playError(); else playClick();
             if (ok) remDrIdField.clear();
         }
     } else if (screen == SCREEN_ADMIN_DISCHARGE) {
@@ -300,6 +317,7 @@ void AdminUI::handleClick(float bx, float by, int& screen, HospitalSystem& syste
             int pid = Validator::toInt(disPatIdField.getValue());
             bool ok = system.dischargePatient(pid, msgBuf);
             msgOk = ok;
+        if (!ok) playError(); else playClick();
             if (ok) disPatIdField.clear();
         }
     } else if (screen == SCREEN_ADMIN_ADD_PATIENT) {
@@ -316,11 +334,13 @@ void AdminUI::handleClick(float bx, float by, int& screen, HospitalSystem& syste
                 !Validator::strEqualIgnoreCase(gender, "Other")) {
                 Validator::strCopy(msgBuf, "Gender must be Male, Female, or Other.", 128);
                 msgOk = false;
+            playError();
                 return;
             }
             if (!isNonNegativeFloat(addPatBalField.getValue())) {
                 Validator::strCopy(msgBuf, "Balance must be 0 or more.", 128);
                 msgOk = false;
+            playError();
                 return;
             }
             int age = Validator::toInt(addPatAgeField.getValue());
@@ -331,6 +351,7 @@ void AdminUI::handleClick(float bx, float by, int& screen, HospitalSystem& syste
                                         addPatPassField.getValue(),
                                         bal, msgBuf);
             msgOk = ok;
+        if (!ok) playError(); else playClick();
             if (ok) {
                 addPatNameField.clear();
                 addPatAgeField.clear();
@@ -430,7 +451,7 @@ void AdminUI::drawAddDoctor(RenderWindow& win, const Font& font, int mx, int my)
         win.draw(t);
     }
     Text hint(font, "Tab=next field  Enter=submit", 12);
-    hint.setFillColor(COL_MUTED); hint.setPosition({100.f,560.f}); win.draw(hint);
+    hint.setFillColor(Color(185, 178, 155)); hint.setPosition({100.f,560.f}); win.draw(hint);
 }
 
 void AdminUI::drawRemoveDoctor(RenderWindow& win, const Font& font, int mx, int my)
@@ -508,7 +529,7 @@ void AdminUI::drawAddPatient(RenderWindow& win, const Font& font, int mx, int my
         win.draw(t);
     }
     Text hint(font, "Tab=next field  Enter=submit", 12);
-    hint.setFillColor(COL_MUTED); hint.setPosition({100.f,560.f}); win.draw(hint);
+    hint.setFillColor(Color(185, 178, 155)); hint.setPosition({100.f,560.f}); win.draw(hint);
 }
 
 void AdminUI::drawAllPatients(RenderWindow& win, const Font& font, int mx, int my,
@@ -714,7 +735,7 @@ void AdminUI::drawSecurityLog(RenderWindow& win, const Font& font, int mx, int m
         Color rc=(i%2==0)?COL_ROW_ODD:COL_ROW_EVEN;
         win.draw(makeRect(0.f,96.f+i*32.f,892.f,30.f,rc));
         Text t(font, logLines[idx], 13);
-        t.setFillColor(COL_MUTED);
+        t.setFillColor(Color(255, 248, 220));
         t.setPosition({8.f,99.f+i*32.f});
         win.draw(t);
     }
@@ -781,7 +802,7 @@ void AdminUI::drawReport(RenderWindow& win, const Font& font,
         win.draw(makeRect(LX-12.f,y-6.f,784.f,46.f,COL_SURFACE));
         win.draw(makeRect(LX-12.f,y-6.f,3.f,46.f,COL_GOLD_DIM));
         Text lbl(font,rowLabels[r],15);
-        lbl.setFillColor(COL_MUTED); lbl.setPosition({LX,y+7.f}); win.draw(lbl);
+        lbl.setFillColor(Color(190, 182, 158)); lbl.setPosition({LX,y+7.f}); win.draw(lbl);
         const Font& df2=g_displayFontLoaded?g_displayFont:font;
         Text vt(df2,rowVals[r],18);
         vt.setFillColor(rowColors[r]); vt.setPosition({RX,y+5.f}); win.draw(vt);

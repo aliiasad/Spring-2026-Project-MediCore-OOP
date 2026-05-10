@@ -17,11 +17,25 @@ Bill::Bill(int bId, int pId, int aId, double bAmount, const char* bStatus, const
     Validator::strCopy(date, bDate, 11);
 }
 
-int Bill::getBillId() const { return billId; }
-int Bill::getPatientId() const { return patientId; }
-int Bill::getAppointmentId() const { return appointmentId; }
-double Bill::getAmount() const { return amount; }
-const char* Bill::getStatus() const { return status; }
-const char* Bill::getDate() const { return date; }
+int Bill::getBillId() const { 
+    return billId; 
+}
+int Bill::getPatientId() const { 
+    return patientId; 
+}
+int Bill::getAppointmentId() const { 
+    return appointmentId; 
+}
+double Bill::getAmount() const { 
+    return amount; 
+}
+const char* Bill::getStatus() const { 
+    return status; 
+}
+const char* Bill::getDate() const { 
+    return date; 
+}
 
-void Bill::setStatus(const char* value) { Validator::strCopy(status, value, 20); }
+void Bill::setStatus(const char* value) { 
+    Validator::strCopy(status, value, 20); 
+}

@@ -19,14 +19,28 @@ Appointment::Appointment(int aId, int pId, int dId, const char* aDate, const cha
     Validator::strCopy(status, aStatus, 20);
 }
 
-int Appointment::getAppointmentId() const { return appointmentId; }
-int Appointment::getPatientId() const { return patientId; }
-int Appointment::getDoctorId() const { return doctorId; }
-const char* Appointment::getDate() const { return date; }
-const char* Appointment::getTimeSlot() const { return timeSlot; }
-const char* Appointment::getStatus() const { return status; }
+int Appointment::getAppointmentId() const { 
+    return appointmentId; 
+}
+int Appointment::getPatientId() const { 
+    return patientId; 
+}
+int Appointment::getDoctorId() const { 
+    return doctorId; 
+}
+const char* Appointment::getDate() const { 
+    return date; 
+}
+const char* Appointment::getTimeSlot() const { 
+    return timeSlot; 
+}
+const char* Appointment::getStatus() const { 
+    return status; 
+}
 
-void Appointment::setStatus(const char* value) { Validator::strCopy(status, value, 20); }
+void Appointment::setStatus(const char* value) { 
+    Validator::strCopy(status, value, 20); 
+}
 
 bool Appointment::operator==(const Appointment& other) const {
     bool neitherCancelled = !Validator::strEqual(status, "cancelled") && !Validator::strEqual(other.status, "cancelled");

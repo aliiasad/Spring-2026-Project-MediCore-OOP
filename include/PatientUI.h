@@ -13,36 +13,36 @@ class PatientUI {
 private:
     int patientId;
 
-    Doctor  doctorList[100];
-    int     doctorCount;
+    Doctor doctorList[100];
+    int doctorCount;
     UIField bookDrIdField;
     UIField bookDateField;
     UIField bookSlotField;
-    int     bookActiveField;
-    int     bookScroll;
+    int bookActiveField;
+    int bookScroll;
 
     Appointment apptList[100];
-    int         apptCount;
-    UIField     cancelIdField;
-    int         apptScroll;
+    int apptCount;
+    UIField cancelIdField;
+    int apptScroll;
 
     int viewApptScroll;
 
     Prescription rxList[100];
-    int          rxCount;
-    int          rxScroll;
+    int rxCount;
+    int rxScroll;
 
     Bill billList[100];
-    int  billCount;
-    int  billScroll;
+    int billCount;
+    int billScroll;
 
     UIField payBillIdField;
 
     UIField topupAmtField;
 
-    char    msgBuf[128];
-    bool    msgOk;
-    int     blink;
+    char msgBuf[128];
+    bool msgOk;
+    int blink;
 
     UIButton btnBack;
     UIButton btnConfirm;

@@ -78,9 +78,7 @@ public:
     void runDoctorMenu(int doctorId);
     void runAdminMenu(int adminId);
 
-    // -----------------------------------------------------------------------
     // SFML UI action methods
-    // -----------------------------------------------------------------------
     bool bookAppointment(int patientId, int doctorId, const char* date,
                          const char* slot, char* outMsg);
     bool cancelAppointment(int patientId, int appointmentId, char* outMsg);
@@ -99,9 +97,7 @@ public:
     bool removeDoctor(int doctorId, char* outMsg);
     bool dischargePatient(int patientId, char* outMsg);
 
-    // -----------------------------------------------------------------------
     // SFML UI query methods
-    // -----------------------------------------------------------------------
     void getPatientAppointments(int patientId,
                                 Appointment* outArr, int& outCount) const;
     void getPatientBills(int patientId,
@@ -121,7 +117,7 @@ public:
 
     const char* getPatientName(int patientId) const;
     const char* getDoctorName(int doctorId)   const;
-    double      getPatientBalance(int patientId) const;
+    double getPatientBalance(int patientId) const;
 };
 
 #endif

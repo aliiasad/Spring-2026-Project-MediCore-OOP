@@ -6,8 +6,8 @@
 class UIButton {
 private:
     float x, y, w, h;
-    char  label[64];
-    int   style;
+    char label[64];
+    int style;
 public:
     UIButton();
     void set(float x, float y, float w, float h, const char* label, int style = 1);
@@ -22,11 +22,11 @@ public:
 class UIField {
 private:
     float x, y, w, h;
-    char  label[64];
-    char  buf[512];
-    int   len;
-    bool  active;
-    bool  isPassword;
+    char label[64];
+    char buf[512];
+    int len;
+    bool active;
+    bool isPassword;
 public:
     UIField();
     void set(float x, float y, float w, float h,
@@ -44,7 +44,7 @@ public:
 class UILabel {
 private:
     float x, y;
-    char  text[256];
+    char text[256];
     unsigned int size;
     sf::Color color;
 public:

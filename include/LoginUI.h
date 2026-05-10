@@ -11,12 +11,12 @@ private:
     UIField fieldPass;
     UIButton btnLogin;
     UIButton btnBack;
-    int      activeField;
-    char     msgBuf[128];
-    bool     msgOk;
-    int      role;
-    int      blink;
-    int      attempts;
+    int activeField;
+    char msgBuf[128];
+    bool msgOk;
+    int role;
+    int blink;
+    int attempts;
 
 public:
     LoginUI();

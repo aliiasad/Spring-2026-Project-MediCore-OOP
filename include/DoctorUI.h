@@ -12,24 +12,24 @@ private:
     int doctorId;
 
     Appointment todayList[100];
-    int         todayCount;
-    int         todayScroll;
+    int todayCount;
+    int todayScroll;
 
     UIField apptIdField;
     UIField prescApptField;
     UIField prescMedField;
     UIField prescNotesField;
-    int     prescActiveField;
+    int prescActiveField;
 
     UIField histPidField;
     Prescription histList[100];
-    int          histCount;
-    int          histScroll;
-    bool         histLoaded;
+    int histCount;
+    int histScroll;
+    bool histLoaded;
 
-    char    msgBuf[128];
-    bool    msgOk;
-    int     blink;
+    char msgBuf[128];
+    bool msgOk;
+    int blink;
 
     UIButton btnBack;
     UIButton btnConfirm;

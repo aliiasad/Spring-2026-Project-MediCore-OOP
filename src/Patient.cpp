@@ -17,15 +17,31 @@ Patient::Patient(int pId, const char* pName, int pAge, const char* pGender, cons
     Validator::strCopy(contact, pContact, 20);
 }
 
-int Patient::getAge() const { return age; }
-const char* Patient::getGender() const { return gender; }
-const char* Patient::getContact() const { return contact; }
-double Patient::getBalance() const { return balance; }
+int Patient::getAge() const { 
+    return age; 
+}
+const char* Patient::getGender() const { 
+    return gender; 
+}
+const char* Patient::getContact() const { 
+    return contact; 
+}
+double Patient::getBalance() const { 
+    return balance; 
+}
 
-void Patient::setAge(int value) { age = value; }
-void Patient::setGender(const char* value) { Validator::strCopy(gender, value, 10); }
-void Patient::setContact(const char* value) { Validator::strCopy(contact, value, 20); }
-void Patient::setBalance(double value) { balance = value; }
+void Patient::setAge(int value) { 
+    age = value;
+}
+void Patient::setGender(const char* value) { 
+    Validator::strCopy(gender, value, 10); 
+}
+void Patient::setContact(const char* value) { 
+    Validator::strCopy(contact, value, 20); 
+}
+void Patient::setBalance(double value) { 
+    balance = value; 
+}
 
 Patient& Patient::operator+=(double amount) {
     balance += amount;
@@ -41,8 +57,12 @@ bool Patient::operator==(const Patient& other) const {
     return id == other.id;
 }
 
-const char* Patient::getRole() const { return "Patient"; }
-void Patient::display() const { std::cout << *this << '\n'; }
+const char* Patient::getRole() const { 
+    return "Patient"; 
+}
+void Patient::display() const { 
+    std::cout << *this << '\n'; 
+}
 
 std::ostream& operator<<(std::ostream& os, const Patient& patient) {
     char b[32];

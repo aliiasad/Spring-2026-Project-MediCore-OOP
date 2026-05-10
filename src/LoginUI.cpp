@@ -144,7 +144,7 @@ void LoginUI::draw(RenderWindow& win, int mx, int my)
     win.draw(ic);
 
     Text wb(font, "Welcome back", 13);
-    wb.setFillColor(COL_MUTED);
+    wb.setFillColor(Color(185, 178, 155));
     centreTextX(wb, CPX, CPW);
     wb.setPosition({wb.getPosition().x, 162.f});
     win.draw(wb);
@@ -172,7 +172,7 @@ void LoginUI::draw(RenderWindow& win, int mx, int my)
 
     drawStatusBar(win, font, "", "");
     Text hint(font, "Tab = switch field  |  Enter = submit  |  Esc = back", 11);
-    hint.setFillColor(COL_DIM);
+    hint.setFillColor(Color(130, 124, 108));
     centreTextX(hint, 0.f, 900.f);
     hint.setPosition({hint.getPosition().x, 583.f});
     win.draw(hint);

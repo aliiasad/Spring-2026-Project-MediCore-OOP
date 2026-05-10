@@ -1,4 +1,4 @@
-1,Ali Hassan,28,Male,03001234567,pass123,5000.00
+1,Ali Hassan,28,Male,03001234567,pass123,4100.00
 2,Sara Ahmed,35,Female,03111234567,pass123,3000.00
 3,Usman Khan,45,Male,03211234567,pass123,8000.00
 4,Fatima Malik,22,Female,03311234567,pass123,1500.00

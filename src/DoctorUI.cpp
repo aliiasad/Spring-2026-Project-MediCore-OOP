@@ -1,11 +1,20 @@
 #include "DoctorUI.h"
 #include "HospitalSystem.h"
 #include "Validator.h"
+#include "AudioManager.h"
 #include <cstdio>
 
 namespace sf {}
 using namespace std;
 using namespace sf;
+
+#ifdef HMS_ENABLE_SFML
+extern void playClick();
+extern void playError();
+#else
+inline void playClick() {}
+inline void playError() {}
+#endif
 
 DoctorUI::DoctorUI()
     : doctorId(0), todayCount(0), todayScroll(0),
@@ -101,6 +110,7 @@ void DoctorUI::handleKey(Keyboard::Key key, int& screen, HospitalSystem& system)
         int aid = Validator::toInt(apptIdField.getValue());
         bool ok = system.updateAppointmentStatus(doctorId, aid, "completed", msgBuf);
         msgOk = ok;
+        if (!ok) playError(); else playClick();
         if (ok) {
             apptIdField.clear();
             system.getDoctorTodayAppointments(doctorId, todayList, todayCount);
@@ -109,6 +119,7 @@ void DoctorUI::handleKey(Keyboard::Key key, int& screen, HospitalSystem& system)
         int aid = Validator::toInt(apptIdField.getValue());
         bool ok = system.updateAppointmentStatus(doctorId, aid, "no-show", msgBuf);
         msgOk = ok;
+        if (!ok) playError(); else playClick();
         if (ok) {
             apptIdField.clear();
             system.getDoctorTodayAppointments(doctorId, todayList, todayCount);
@@ -119,6 +130,7 @@ void DoctorUI::handleKey(Keyboard::Key key, int& screen, HospitalSystem& system)
                                            prescMedField.getValue(),
                                            prescNotesField.getValue(), msgBuf);
         msgOk = ok;
+        if (!ok) playError(); else playClick();
         if (ok) {
             prescApptField.clear();
             prescMedField.clear();
@@ -132,6 +144,7 @@ void DoctorUI::handleKey(Keyboard::Key key, int& screen, HospitalSystem& system)
         if (histCount == 0) {
             Validator::strCopy(msgBuf, "No prescription history found.", 128);
             msgOk = false;
+            playError();
         } else {
             msgBuf[0] = '\0';
         }
@@ -178,6 +191,7 @@ void DoctorUI::handleClick(float bx, float by, int& screen, HospitalSystem& syst
             int aid = Validator::toInt(apptIdField.getValue());
             bool ok = system.updateAppointmentStatus(doctorId, aid, "completed", msgBuf);
             msgOk = ok;
+        if (!ok) playError(); else playClick();
             if (ok) {
                 apptIdField.clear();
                 system.getDoctorTodayAppointments(doctorId, todayList, todayCount);
@@ -188,6 +202,7 @@ void DoctorUI::handleClick(float bx, float by, int& screen, HospitalSystem& syst
             int aid = Validator::toInt(apptIdField.getValue());
             bool ok = system.updateAppointmentStatus(doctorId, aid, "no-show", msgBuf);
             msgOk = ok;
+        if (!ok) playError(); else playClick();
             if (ok) {
                 apptIdField.clear();
                 system.getDoctorTodayAppointments(doctorId, todayList, todayCount);
@@ -203,6 +218,7 @@ void DoctorUI::handleClick(float bx, float by, int& screen, HospitalSystem& syst
                                                prescMedField.getValue(),
                                                prescNotesField.getValue(), msgBuf);
             msgOk = ok;
+        if (!ok) playError(); else playClick();
             if (ok) {
                 prescApptField.clear();
                 prescMedField.clear();
@@ -218,6 +234,7 @@ void DoctorUI::handleClick(float bx, float by, int& screen, HospitalSystem& syst
             if (histCount == 0) {
                 Validator::strCopy(msgBuf, "No prescription history found.", 128);
                 msgOk = false;
+            playError();
             } else {
                 msgBuf[0] = '\0';
             }
@@ -379,7 +396,7 @@ void DoctorUI::drawPrescribe(RenderWindow& win, const Font& font, int mx, int my
         win.draw(t);
     }
     Text hint(font, "Tab=next field  Enter=save  Esc=back", 12);
-    hint.setFillColor(COL_MUTED); hint.setPosition({100.f,560.f}); win.draw(hint);
+    hint.setFillColor(Color(185, 178, 155)); hint.setPosition({100.f,560.f}); win.draw(hint);
 }
 
 void DoctorUI::drawHistory(RenderWindow& win, const Font& font,

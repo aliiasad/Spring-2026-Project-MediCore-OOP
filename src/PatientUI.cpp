@@ -1,11 +1,20 @@
 #include "PatientUI.h"
 #include "HospitalSystem.h"
 #include "Validator.h"
+#include "AudioManager.h"
 #include <cstdio>
 
 namespace sf {}
 using namespace std;
 using namespace sf;
+
+#ifdef HMS_ENABLE_SFML
+extern void playClick();
+extern void playError();
+#else
+inline void playClick() {}
+inline void playError() {}
+#endif
 
 PatientUI::PatientUI()
     : patientId(0), doctorCount(0), bookActiveField(0), bookScroll(0),
@@ -119,6 +128,7 @@ void PatientUI::handleKey(Keyboard::Key key, int& screen, HospitalSystem& system
                                          bookDateField.getValue(),
                                          bookSlotField.getValue(), msgBuf);
         msgOk = ok;
+        if (!ok) playError(); else playClick();
         if (ok) {
             bookDrIdField.clear();
             bookDateField.clear();
@@ -129,6 +139,7 @@ void PatientUI::handleKey(Keyboard::Key key, int& screen, HospitalSystem& system
         int aid = Validator::toInt(cancelIdField.getValue());
         bool ok = system.cancelAppointment(patientId, aid, msgBuf);
         msgOk = ok;
+        if (!ok) playError(); else playClick();
         if (ok) {
             cancelIdField.clear();
             system.getPatientAppointments(patientId, apptList, apptCount);
@@ -137,6 +148,7 @@ void PatientUI::handleKey(Keyboard::Key key, int& screen, HospitalSystem& system
         int bid = Validator::toInt(payBillIdField.getValue());
         bool ok = system.payBill(patientId, bid, msgBuf);
         msgOk = ok;
+        if (!ok) playError(); else playClick();
         if (ok) {
             payBillIdField.clear();
             system.getPatientBills(patientId, billList, billCount);
@@ -145,6 +157,7 @@ void PatientUI::handleKey(Keyboard::Key key, int& screen, HospitalSystem& system
         double amt = Validator::toDouble(topupAmtField.getValue());
         bool ok = system.topUpBalance(patientId, amt, msgBuf);
         msgOk = ok;
+        if (!ok) playError(); else playClick();
         if (ok) topupAmtField.clear();
     }
 }
@@ -197,6 +210,7 @@ void PatientUI::handleClick(float bx, float by, int& screen, HospitalSystem& sys
                                              bookDateField.getValue(),
                                              bookSlotField.getValue(), msgBuf);
             msgOk = ok;
+        if (!ok) playError(); else playClick();
             if (ok) {
                 bookDrIdField.clear();
                 bookDateField.clear();
@@ -209,6 +223,7 @@ void PatientUI::handleClick(float bx, float by, int& screen, HospitalSystem& sys
             int aid = Validator::toInt(cancelIdField.getValue());
             bool ok = system.cancelAppointment(patientId, aid, msgBuf);
             msgOk = ok;
+        if (!ok) playError(); else playClick();
             if (ok) {
                 cancelIdField.clear();
                 system.getPatientAppointments(patientId, apptList, apptCount);
@@ -219,6 +234,7 @@ void PatientUI::handleClick(float bx, float by, int& screen, HospitalSystem& sys
             int bid = Validator::toInt(payBillIdField.getValue());
             bool ok = system.payBill(patientId, bid, msgBuf);
             msgOk = ok;
+        if (!ok) playError(); else playClick();
             if (ok) {
                 payBillIdField.clear();
                 system.getPatientBills(patientId, billList, billCount);
@@ -229,6 +245,7 @@ void PatientUI::handleClick(float bx, float by, int& screen, HospitalSystem& sys
             double amt = Validator::toDouble(topupAmtField.getValue());
             bool ok = system.topUpBalance(patientId, amt, msgBuf);
             msgOk = ok;
+        if (!ok) playError(); else playClick();
             if (ok) topupAmtField.clear();
         }
     }
@@ -304,7 +321,7 @@ void PatientUI::drawBook(RenderWindow& win, const Font& font, int mx, int my)
 
     win.draw(makeRect(0.f, 92.f, 482.f, 460.f, COL_PANEL));
     Text dhdrT(font, "  ID   Name               Spec          Fee", 12);
-    dhdrT.setFillColor(COL_ACCENT);
+    dhdrT.setFillColor(COL_GOLD);
     dhdrT.setPosition({4.f, 96.f});
     win.draw(dhdrT);
 
@@ -320,9 +337,9 @@ void PatientUI::drawBook(RenderWindow& win, const Font& font, int mx, int my)
         char idS[8],fS[16];
         std::snprintf(idS,8,"%d",d.getId());
         Validator::formatDouble(d.getFee(),fS,16);
-        Text tId(font,idS,12); tId.setFillColor(COL_MUTED); tId.setPosition({dxp[0],ry+3.f}); win.draw(tId);
+        Text tId(font,idS,12); tId.setFillColor(Color(210, 200, 170)); tId.setPosition({dxp[0],ry+3.f}); win.draw(tId);
         Text tNm(font,d.getName(),12); tNm.setFillColor(COL_WHITE); tNm.setPosition({dxp[1],ry+3.f}); win.draw(tNm);
-        Text tSp(font,d.getSpecialization(),12); tSp.setFillColor(COL_MUTED); tSp.setPosition({dxp[2],ry+3.f}); win.draw(tSp);
+        Text tSp(font,d.getSpecialization(),12); tSp.setFillColor(Color(210, 200, 170)); tSp.setPosition({dxp[2],ry+3.f}); win.draw(tSp);
         Text tFe(font,fS,12); tFe.setFillColor(COL_OK); tFe.setPosition({dxp[3],ry+3.f}); win.draw(tFe);
     }
     drawScrollBar(win, doctorCount, VIS, bookScroll, 474.f, 112.f, VIS*ROW_H);
@@ -347,7 +364,7 @@ void PatientUI::drawBook(RenderWindow& win, const Font& font, int mx, int my)
         win.draw(t);
     }
     Text hint(font, "Tab=next field  Enter=confirm  Esc=back", 12);
-    hint.setFillColor(COL_MUTED); hint.setPosition({490.f,560.f}); win.draw(hint);
+    hint.setFillColor(Color(185, 178, 155)); hint.setPosition({490.f,560.f}); win.draw(hint);
 }
 
 void PatientUI::drawCancel(RenderWindow& win, const Font& font, int mx, int my,

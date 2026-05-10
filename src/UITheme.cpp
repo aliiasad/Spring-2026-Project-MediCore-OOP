@@ -14,15 +14,15 @@ const Color COL_GOLD_BRIGHT = Color(255, 215,   0);
 const Color COL_GOLD_DIM    = Color(140, 110,  30);
 const Color COL_GOLD_BG     = Color( 30,  25,   5);
 const Color COL_WHITE       = Color(240, 235, 220);
-const Color COL_MUTED       = Color(120, 115, 100);
-const Color COL_DIM         = Color( 65,  62,  55);
+const Color COL_MUTED       = Color(185, 178, 155);
+const Color COL_DIM         = Color(110, 105,  90);
 const Color COL_FIELD       = Color( 18,  18,  22);
 const Color COL_ACTIVE      = Color( 25,  22,   8);
 const Color COL_BORDER      = Color( 45,  42,  30);
 const Color COL_ERROR       = Color(220,  60,  60);
 const Color COL_OK          = Color( 80, 200, 100);
-const Color COL_ROW_ODD     = Color( 16,  16,  20);
-const Color COL_ROW_EVEN    = Color( 22,  22,  28);
+const Color COL_ROW_ODD     = Color( 28,  22,  10);
+const Color COL_ROW_EVEN    = Color( 38,  32,  15);
 const Color COL_ACCENT      = Color(212, 175,  55);
 
 bool g_displayFontLoaded = false;
@@ -34,9 +34,10 @@ static const float AVG_CHAR_WIDTH  = 7.5f;
 
 void loadFonts()
 {
-    const char* displayPaths[10] = {
-        "C:/Windows/Fonts/georgiabd.ttf",
+    const char* displayPaths[12] = {
+        "assets/fonts/Cinzel/Cinzel-VariableFont_wght.ttf",
         "C:/Windows/Fonts/georgia.ttf",
+        "C:/Windows/Fonts/georgiabd.ttf",
         "C:/Windows/Fonts/cambriab.ttf",
         "C:/Windows/Fonts/cambria.ttc",
         "C:/Windows/Fonts/times.ttf",
@@ -44,23 +45,26 @@ void loadFonts()
         "/usr/share/fonts/truetype/liberation/LiberationSerif-Bold.ttf",
         "/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf",
         "/usr/share/fonts/truetype/ubuntu/Ubuntu-B.ttf",
-        "/System/Library/Fonts/Georgia.ttf"
+        "/System/Library/Fonts/Georgia.ttf",
+        nullptr
     };
-    const char* bodyPaths[10] = {
-        "C:/Windows/Fonts/consola.ttf",
+    const char* bodyPaths[12] = {
+        "assets/fonts/Raleway/Raleway-VariableFont_wght.ttf",
         "C:/Windows/Fonts/calibri.ttf",
         "C:/Windows/Fonts/segoeui.ttf",
+        "C:/Windows/Fonts/consola.ttf",
         "C:/Windows/Fonts/tahoma.ttf",
         "C:/Windows/Fonts/verdana.ttf",
         "/usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf",
         "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf",
         "/usr/share/fonts/truetype/ubuntu/Ubuntu-R.ttf",
         "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
-        "/System/Library/Fonts/Helvetica.ttc"
+        "/System/Library/Fonts/Helvetica.ttc",
+        nullptr
     };
-    for (int i = 0; i < 10; ++i)
+    for (int i = 0; i < 12 && displayPaths[i]; ++i)
         if (g_displayFont.openFromFile(displayPaths[i])) { g_displayFontLoaded = true; break; }
-    for (int i = 0; i < 10; ++i)
+    for (int i = 0; i < 12 && bodyPaths[i]; ++i)
         if (g_bodyFont.openFromFile(bodyPaths[i]))    { g_bodyFontLoaded    = true; break; }
 }
 
@@ -94,13 +98,13 @@ void drawHeader(RenderWindow& win, const Font& font,
     win.draw(t);
 
     Text s(font, sub, 13);
-    s.setFillColor(COL_GOLD_DIM);
+    s.setFillColor(COL_GOLD);
     centreTextX(s, 0.f, 900.f);
     s.setPosition({s.getPosition().x, 58.f});
     win.draw(s);
 
     Text wm(font, "MEDICORE HMS", 10);
-    wm.setFillColor(COL_DIM);
+    wm.setFillColor(Color(100, 95, 80));
     wm.setPosition({820.f, 12.f});
     win.draw(wm);
 }
@@ -123,7 +127,7 @@ void drawTableHeader(RenderWindow& win, const Font& font,
                      const char* cols[], int nCols,
                      const float xPos[])
 {
-    win.draw(makeRect(0.f, y, 900.f, rh + 2.f, COL_GOLD_BG));
+    win.draw(makeRect(0.f, y, 900.f, rh + 2.f, Color(55, 44, 10)));
     win.draw(makeRect(0.f, y + rh + 1.f, 900.f, 1.f, COL_GOLD_DIM));
     for (int c = 0; c < nCols; ++c) {
         if (!cols[c]) continue;
@@ -155,7 +159,7 @@ void drawTableRow(RenderWindow& win, const Font& font,
             Validator::strCopy(buf, cols[c], 128);
         }
         Text t(font, buf, 13);
-        t.setFillColor(COL_WHITE);
+        t.setFillColor(Color(255, 248, 220));
         t.setPosition({xPos[c], y + (rh - t.getLocalBounds().size.y) * 0.5f - 1.f});
         win.draw(t);
     }

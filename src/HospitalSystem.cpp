@@ -212,27 +212,16 @@ void HospitalSystem::patientBookAppointment(Patient& patient) {
         }
     }
 
-    try {
-        if (patient.getBalance() < doc->getFee()) {
-            throw InsufficientFundsException("Insufficient balance for booking.");
-        }
-    } catch (const HospitalException& ex) {
-        std::cout << ex.what() << '\n';
-        return;
-    }
-
-    patient -= doc->getFee();
-
     Appointment appointment(fileHandler.nextAppointmentId(), patient.getId(), doctorId, date, selectedSlot, "pending");
     appointments.add(appointment);
     Bill bill(fileHandler.nextBillId(), patient.getId(), appointment.getAppointmentId(), doc->getFee(), "unpaid", date);
     bills.add(bill);
 
-    fileHandler.savePatients(patients);
     fileHandler.saveAppointments(appointments);
     fileHandler.saveBills(bills);
 
     std::cout << "Appointment booked successfully. Appointment ID: " << appointment.getAppointmentId() << "\n";
+    std::cout << "A bill of PKR " << doc->getFee() << " has been created. Please pay from the Bills section.\n";
 }
 
 void HospitalSystem::patientCancelAppointment(Patient& patient) {
@@ -268,9 +257,8 @@ void HospitalSystem::patientCancelAppointment(Patient& patient) {
         return;
     }
 
-    int fee = findDoctorFee(target->getDoctorId());
     target->setStatus("cancelled");
-    patient += fee;
+    // No refund — fee not deducted at booking
 
     for (int i = 0; i < bills.size(); ++i) {
         if (bills.getAll()[i].getAppointmentId() == aid) {
@@ -282,7 +270,7 @@ void HospitalSystem::patientCancelAppointment(Patient& patient) {
     fileHandler.saveBills(bills);
     fileHandler.savePatients(patients);
 
-    std::cout << "Appointment cancelled. PKR " << fee << " refunded to your balance.\n";
+    std::cout << "Appointment cancelled successfully. Any unpaid bill has been marked cancelled.\n";
 }
 
 void HospitalSystem::sortAppointmentsByDate(Appointment* list, int count, bool asc) const {
@@ -849,9 +837,8 @@ bool HospitalSystem::hasUnpaidBillsForPatient(int patientId) const {
     return false;
 }
 
-// =============================================================================
-// SFML UI action methods
-// =============================================================================
+
+// Sfml UI action methods
 
 bool HospitalSystem::bookAppointment(int patientId, int doctorId,
                                      const char* date, const char* slot,
@@ -880,11 +867,7 @@ bool HospitalSystem::bookAppointment(int patientId, int doctorId,
         }
     }
 
-    if (p->getBalance() < doc->getFee()) {
-        Validator::strCopy(outMsg, "Insufficient balance.", 256); return false;
-    }
-
-    *p -= doc->getFee();
+    // No balance deduction at booking — patient pays via bill
     Appointment appt(fileHandler.nextAppointmentId(), patientId, doctorId,
                      date, slot, "pending");
     appointments.add(appt);
@@ -892,12 +875,11 @@ bool HospitalSystem::bookAppointment(int patientId, int doctorId,
               appt.getAppointmentId(), doc->getFee(), "unpaid", date);
     bills.add(bill);
 
-    fileHandler.savePatients(patients);
     fileHandler.saveAppointments(appointments);
     fileHandler.saveBills(bills);
 
-    std::snprintf(outMsg, 256, "Appointment booked! ID: %d",
-                  appt.getAppointmentId());
+    std::snprintf(outMsg, 256, "Appointment booked! ID: %d. Bill of PKR %.2f created.",
+                  appt.getAppointmentId(), doc->getFee());
     return true;
 }
 
@@ -920,21 +902,19 @@ bool HospitalSystem::cancelAppointment(int patientId, int appointmentId,
         return false;
     }
 
-    const Doctor* doc = doctors.findById(target->getDoctorId());
-    double fee = doc ? doc->getFee() : 0.0;
     target->setStatus("cancelled");
-    *p += fee;
 
+    // Mark any unpaid bill as cancelled (no refund — fee not charged at booking)
     for (int i = 0; i < bills.size(); ++i) {
-        if (bills.getAll()[i].getAppointmentId() == appointmentId)
+        if (bills.getAll()[i].getAppointmentId() == appointmentId &&
+            Validator::strEqual(bills.getAll()[i].getStatus(), "unpaid"))
             bills.getAll()[i].setStatus("cancelled");
     }
 
     fileHandler.saveAppointments(appointments);
     fileHandler.saveBills(bills);
-    fileHandler.savePatients(patients);
 
-    std::snprintf(outMsg, 256, "Appointment cancelled. PKR %.2f refunded.", fee);
+    Validator::strCopy(outMsg, "Appointment cancelled. Bill has been voided.", 256);
     return true;
 }
 
@@ -1164,9 +1144,7 @@ bool HospitalSystem::dischargePatient(int patientId, char* outMsg) {
     return true;
 }
 
-// =============================================================================
-// SFML UI query methods
-// =============================================================================
+// Sfml UI query methods
 
 void HospitalSystem::getPatientAppointments(int patientId,
                                             Appointment* outArr,

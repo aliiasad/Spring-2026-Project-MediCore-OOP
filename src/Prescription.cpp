@@ -19,10 +19,24 @@ Prescription::Prescription(int prId, int aId, int pId, int dId, const char* pDat
     Validator::strCopy(notes, pNotes, 300);
 }
 
-int Prescription::getPrescriptionId() const { return prescriptionId; }
-int Prescription::getAppointmentId() const { return appointmentId; }
-int Prescription::getPatientId() const { return patientId; }
-int Prescription::getDoctorId() const { return doctorId; }
-const char* Prescription::getDate() const { return date; }
-const char* Prescription::getMedicines() const { return medicines; }
-const char* Prescription::getNotes() const { return notes; }
+int Prescription::getPrescriptionId() const { 
+    return prescriptionId; 
+}
+int Prescription::getAppointmentId() const { 
+    return appointmentId; 
+}
+int Prescription::getPatientId() const { 
+    return patientId; 
+}
+int Prescription::getDoctorId() const { 
+    return doctorId; 
+}
+const char* Prescription::getDate() const { 
+    return date; 
+}
+const char* Prescription::getMedicines() const { 
+    return medicines; 
+}
+const char* Prescription::getNotes() const { 
+    return notes; 
+}
